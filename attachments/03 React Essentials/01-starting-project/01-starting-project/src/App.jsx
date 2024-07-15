@@ -1,5 +1,7 @@
-import { CORE_CONCEPTS } from './data.js'
-33
+import { useState } from 'react'
+
+import { EXAMPLES, CORE_CONCEPTS } from './data.js'
+
 import Header from './components/Header/Header.jsx';
 import CoreConcept from './components/CoreConcept.jsx';
 import TabButton from'./components/TabButton.jsx'
@@ -8,14 +10,25 @@ import TabButton from'./components/TabButton.jsx'
 // React 라이브러리가 내부에서 실행시켜 화면에 나와야 하는 것이 무엇인지 인지 --> 함수 호출하는 JS 방식으로 함수 실행X
 
 function App() {
-  let tabContent = 'Please click a button'
+  // useState 함수는 내부 함수에 중첩되면 안됨(반드시 컴포넌트 함수의 최상위에서 호출해야 함)
+  const [ selectedTopic, setSelectedTopic ] = useState()
+
+
+  // 일반적인 변수로는 UI 업데이트 할 수 없음
+  // 컴포넌트 함수가 재실행되어야 한다는 것을 리액트에게 알려줄 방법 필요 --> 그게 state!
+  // let tabContent = 'Please click a button'
+
   // handleClick 이었던 inner 함수 가져다가 App.jsx에 가져온 것
   function handleSelect(selectedButton) {
     // selectedButton => 'components', 'jsx', 'props', 'state'
-    tabContent = selectedButton
+    // tabContent = selectedButton
+    setSelectedTopic(selectedButton)
     // 버튼 클릭 확인 위해서
-    console.log(tabContent)
+    // console.log(selectedTopic)
 }
+  // app component 실행 확인
+  console.log('APP COMPONENT EXECUTING')
+
   return (
     <div>
       {/* Header.css 랑 연결 안 되어있어도 App.jsx에 입력한 header는 컴포넌트 스타일 css 영향을 받는다!!! */}
@@ -65,7 +78,16 @@ function App() {
             </menu>
             {/* Because you must handle the event in the component that also manages the data that should be changed.
             ex) the “Dynamic Content” that should be displayed in this case. */}
-            {tabContent}
+            {!selectedTopic ? (<p>Please select a topic.</p>
+          ) : (
+            <div id="tab-content">
+              <h3>{EXAMPLES[selectedTopic].title}</h3>
+              <p>{EXAMPLES[selectedTopic].description} </p>
+              <pre>
+                <code>{EXAMPLES[selectedTopic].code}</code>
+              </pre>
+            </div>
+          )} 
         </section>
       </main>
     </div> 

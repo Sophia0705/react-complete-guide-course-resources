@@ -14,6 +14,9 @@ export default function TabButton({children, onSelect}) {
     // function handleClick() {
     //     console.log('Hello World!')
     // }
+    
+    // tabbutton component 실행 확인
+    console.log('TABBUTTON COMPONENT EXECUTING')
 
     return (
     <li>
