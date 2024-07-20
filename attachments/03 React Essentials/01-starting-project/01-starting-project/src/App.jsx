@@ -29,6 +29,20 @@ function App() {
   // app component 실행 확인
   console.log('APP COMPONENT EXECUTING')
 
+  let tabContent = <p>Please select a topic.</p>
+
+  if (selectedTopic) {
+    tabContent = (
+      <div id="tab-content">
+        <h3>{EXAMPLES[selectedTopic].title}</h3>
+        <p>{EXAMPLES[selectedTopic].description} </p>
+        <pre>
+          <code>{EXAMPLES[selectedTopic].code}</code>
+        </pre>
+      </div>
+    )
+  }
+
   return (
     <div>
       {/* Header.css 랑 연결 안 되어있어도 App.jsx에 입력한 header는 컴포넌트 스타일 css 영향을 받는다!!! */}
@@ -43,13 +57,19 @@ function App() {
         <section id="core-concepts">
         <h2>Core Concepts</h2>
         <ul>
+        {/* map()으로 동적으로 배열 출력하게 하는 방법 쓰기 */}
+        {CORE_CONCEPTS.map((conceptItem) => (
+          // key prop 추가
+          <CoreConcept key={conceptItem.title} {...conceptItem} />
+          ))}
           {/* <CoreConcept 
             title={CORE_CONCEPTS[0].title}
             description={CORE_CONCEPTS[0].description}
             image={CORE_CONCEPTS[0].image}
             /> */}
+
           {/* shorter alternatives */}
-          <CoreConcept {...CORE_CONCEPTS[0]} />
+          {/* <CoreConcept {...CORE_CONCEPTS[0]} />
           <CoreConcept 
             title={CORE_CONCEPTS[1].title}
             description={CORE_CONCEPTS[1].description}
@@ -64,30 +84,23 @@ function App() {
             title={CORE_CONCEPTS[3].title}
             description={CORE_CONCEPTS[3].description}
             image={CORE_CONCEPTS[3].image}
-          />
+          /> */}
         </ul>
         </section>
         <section id="examples">
             <h2>Examples</h2>
             <menu>
               {/* handleSelect 함수에 포인터 전달 */}
-              <TabButton onSelect={() => handleSelect('components')}>Components</TabButton>
-              <TabButton onSelect={() => handleSelect('jsx')}>JSX</TabButton>
-              <TabButton onSelect={() => handleSelect('props')}>Props</TabButton>
-              <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
+              <TabButton 
+                isSelected={selectedTopic === 'components'} 
+                onSelect={() => handleSelect('components')}>Components</TabButton>
+              <TabButton isSelected={selectedTopic === 'jsx'} onSelect={() => handleSelect('jsx')}>JSX</TabButton>
+              <TabButton isSelected={selectedTopic === 'props'} onSelect={() => handleSelect('props')}>Props</TabButton>
+              <TabButton isSelected={selectedTopic === 'state'} onSelect={() => handleSelect('state')}>State</TabButton>
             </menu>
             {/* Because you must handle the event in the component that also manages the data that should be changed.
             ex) the “Dynamic Content” that should be displayed in this case. */}
-            {!selectedTopic ? (<p>Please select a topic.</p>
-          ) : (
-            <div id="tab-content">
-              <h3>{EXAMPLES[selectedTopic].title}</h3>
-              <p>{EXAMPLES[selectedTopic].description} </p>
-              <pre>
-                <code>{EXAMPLES[selectedTopic].code}</code>
-              </pre>
-            </div>
-          )} 
+        {tabContent}
         </section>
       </main>
     </div> 
