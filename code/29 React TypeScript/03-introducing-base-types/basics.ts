@@ -4,7 +4,7 @@
 
 // Primitives
 
-let age: number;
+let age: number;    // type은 소문자로 -> Number 이런 식으로 쓰면 nuber란 JS의 object를 가리킴
 
 age = 12;
 
