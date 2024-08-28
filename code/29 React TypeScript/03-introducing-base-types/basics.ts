@@ -22,10 +22,12 @@ let hobbies: string[];
 
 hobbies = ['Sports', 'Cooking'];
 
+// let person: any;   // 이러면 그냥 원래 JS처럼 쓰는거랑 똑같아
+
 let person: {
   name: string;
   age: number;
-};
+};    // object type이라고 선언한 것
 
 person = {
   name: 'Max',
